@@ -232,7 +232,8 @@ module Bundler
           # to keep a list of every spot a failure happened.
           debug { "    -> Jumping to: #{parent.name}" }
           if parent
-            throw parent.name, existing.respond_to?(:required_by) && existing.required_by.last.name
+            required_by = existing.respond_to?(:required_by) && existing.required_by.last
+            throw parent.name, required_by && required_by.name
           else
             # The original set of dependencies conflict with the base set of specs
             # passed to the resolver. This is by definition an impossible resolve.
