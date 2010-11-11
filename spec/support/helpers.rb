@@ -1,3 +1,9 @@
+if Bundler::WINDOWS
+  require 'win32/open3'
+else
+  require 'open3'
+end
+
 module Spec
   module Helpers
     def reset!
