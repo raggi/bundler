@@ -46,7 +46,7 @@ module Bundler
   class InvalidOption    < DslError                      ; end
 
 
-  WINDOWS = RbConfig::CONFIG["host_os"] =~ %r!(msdos|mswin|djgpp|mingw)!
+  WINDOWS = RbConfig::CONFIG["host_os"] =~ %r!(mswin|mingw)!
   NULL    = WINDOWS ? "NUL" : "/dev/null"
 
   # Internal errors, should be rescued
