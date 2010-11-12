@@ -533,7 +533,7 @@ describe "the lockfile format" do
           rack (1.0.0)
 
       PLATFORMS
-        ruby
+        #{generic(Gem::Platform.local)}
 
       DEPENDENCIES
         activesupport
@@ -555,7 +555,7 @@ describe "the lockfile format" do
           rack (1.0.0)
 
       PLATFORMS
-        ruby
+        #{generic(Gem::Platform.local)}
 
       DEPENDENCIES
         rack
@@ -576,7 +576,7 @@ describe "the lockfile format" do
           rack (1.0.0)
 
       PLATFORMS
-        ruby
+        #{generic(Gem::Platform.local)}
 
       DEPENDENCIES
         rack (= 1.0)
@@ -597,7 +597,7 @@ describe "the lockfile format" do
           rack (1.0.0)
 
       PLATFORMS
-        ruby
+        #{generic(Gem::Platform.local)}
 
       DEPENDENCIES
         rack (= 1.0)
@@ -640,7 +640,7 @@ describe "the lockfile format" do
           rack (0.9.1)
 
       PLATFORMS
-        ruby
+        #{generic(Gem::Platform.local)}
 
       DEPENDENCIES
         rack (> 0.9, < 1.0)
