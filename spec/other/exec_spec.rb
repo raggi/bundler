@@ -24,9 +24,7 @@ describe "bundle exec" do
   end
 
   it "works when running from a random directory" do
-    # you can't do this on windows, in the very least single quotes are
-    # meaningless, not checking for now, excess use case, so pending.
-    pending if Bundler::WINDOWS
+    pending "windows" if Bundler::WINDOWS
 
     install_gemfile <<-G
       gem "rack"
@@ -89,10 +87,10 @@ describe "bundle exec" do
 
     rubyopt = "-I#{bundler_path} -rbundler/setup"
 
-    bundle "exec 'echo $RUBYOPT'"
+    bundle 'exec "ruby -e \'puts ENV[%(RUBYOPT)]\'"'
     out.should have_rubyopts(rubyopt)
 
-    bundle "exec 'echo $RUBYOPT'", :env => {"RUBYOPT" => rubyopt}
+    bundle 'exec "ruby -e \'puts ENV[%(RUBYOPT)]\'"', :env => {"RUBYOPT" => rubyopt}
     out.should have_rubyopts(rubyopt)
   end
 
@@ -108,6 +106,10 @@ describe "bundle exec" do
   end
 
   it "errors nicely when the argument is not executable" do
+    # The issue here is that windows won't try to execute this file, which
+    # means we can't generate this kind of error. It's also not going to work
+    # with ./, but that is required for *n*x.
+    pending "windows" if Bundler::WINDOWS
     install_gemfile <<-G
       gem "rack"
     G
@@ -120,6 +122,7 @@ describe "bundle exec" do
 
   describe "with gem binaries" do
     describe "run from a random directory" do
+
       before(:each) do
         install_gemfile <<-G
           gem "rack"
@@ -127,11 +130,15 @@ describe "bundle exec" do
       end
 
       it "works when unlocked" do
+        pending "windows" if Bundler::WINDOWS
+
         bundle "exec 'cd #{tmp('gems')} && rackup'"
         out.should == "1.0.0"
       end
 
       it "works when locked" do
+        pending "windows" if Bundler::WINDOWS
+
         bundle "lock"
         should_be_locked
         bundle "exec 'cd #{tmp('gems')} && rackup'"
