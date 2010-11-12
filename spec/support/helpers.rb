@@ -87,7 +87,7 @@ module Spec
       lib = File.expand_path("../../../lib", __FILE__)
       old, ENV['RUBYOPT'] = ENV['RUBYOPT'], "#{ENV['RUBYOPT']} -I#{lib}"
       cmd = bundled_app("bin/#{cmd}") unless cmd.to_s.include?("/")
-      sys_exec(cmd.to_s)
+      sys_exec(Gem.ruby + ' ' + cmd.to_s)
     ensure
       ENV['RUBYOPT'] = old
     end
