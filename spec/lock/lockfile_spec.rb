@@ -657,8 +657,12 @@ describe "the lockfile format" do
       G
     end
 
+    def readfile(path)
+      open(path, 'rb') { |f| f.read }
+    end
+
     it "generates Gemfile.lock with \\n line endings" do
-      File.read(bundled_app("Gemfile.lock")).should_not match("\r\n")
+      readfile(bundled_app("Gemfile.lock")).should_not match("\r\n")
       should_be_installed "rack 1.0"
     end
 
@@ -666,17 +670,17 @@ describe "the lockfile format" do
       update_repo2
 
       bundle "update"
-      File.read(bundled_app("Gemfile.lock")).should_not match("\r\n")
+      readfile(bundled_app("Gemfile.lock")).should_not match("\r\n")
       should_be_installed "rack 1.2"
     end
 
     it "preserves Gemfile.lock \\n\\r line endings" do
       update_repo2
-      win_lock = File.read(bundled_app("Gemfile.lock")).gsub(/\n/, "\r\n")
+      win_lock = readfile(bundled_app("Gemfile.lock")).gsub(/\n/, "\r\n")
       File.open(bundled_app("Gemfile.lock"), "wb"){|f| f.puts(win_lock) }
 
       bundle "update"
-      File.read(bundled_app("Gemfile.lock")).should match("\r\n")
+      readfile(bundled_app("Gemfile.lock")).should match("\r\n")
       should_be_installed "rack 1.2"
     end
   end
