@@ -24,6 +24,10 @@ describe "bundle exec" do
   end
 
   it "works when running from a random directory" do
+    # you can't do this on windows, in the very least single quotes are
+    # meaningless, not checking for now, excess use case, so pending.
+    pending if Bundler::WINDOWS
+
     install_gemfile <<-G
       gem "rack"
     G
