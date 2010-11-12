@@ -12,7 +12,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (1.0.0)
 
@@ -33,7 +33,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (1.0.0)
           rack-obama (1.0)
@@ -56,7 +56,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (1.0.0)
           rack-obama (1.0)
@@ -79,14 +79,14 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           net-sftp (1.1.1)
             net-ssh (>= 1.0.0, < 1.99.0)
           net-ssh (1.0)
 
       PLATFORMS
-        ruby
+        #{generic(Gem::Platform.local)}
 
       DEPENDENCIES
         net-sftp
@@ -272,7 +272,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           actionpack (2.3.2)
             activesupport (= 2.3.2)
@@ -302,7 +302,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           actionmailer (2.3.2)
             activesupport (= 2.3.2)
@@ -338,7 +338,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (1.0.0)
           rack-obama (1.0)
@@ -361,7 +361,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (1.0.0)
           rack-obama (1.0)
@@ -453,7 +453,7 @@ describe "the lockfile format" do
   it "keeps existing platforms in the lockfile" do
     lockfile <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (1.0.0)
 
@@ -474,7 +474,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (1.0.0)
 
@@ -501,7 +501,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           platform_specific (1.0-java)
 
@@ -527,7 +527,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           activesupport (2.3.5)
           rack (1.0.0)
@@ -550,7 +550,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (1.0.0)
 
@@ -571,7 +571,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (1.0.0)
 
@@ -592,7 +592,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (1.0.0)
 
@@ -635,7 +635,7 @@ describe "the lockfile format" do
 
     lockfile_should_be <<-G
       GEM
-        remote: file:#{gem_repo1}/
+        remote: #{file_uri gem_repo1}
         specs:
           rack (0.9.1)
 
