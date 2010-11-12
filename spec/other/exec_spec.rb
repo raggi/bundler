@@ -108,7 +108,7 @@ describe "bundle exec" do
       gem "rack"
     G
 
-    bundle "exec touch foo"
+    bundle "exec echo > foo"
     bundle "exec ./foo", :exitstatus => true
     check exitstatus.should == 126
     out.should include("bundler: not executable: ./foo")
