@@ -382,7 +382,7 @@ describe "bundle install with git sources" do
     should_be_installed "forced 1.1"
 
     Dir.chdir(lib_path('forced-1.0')) do
-      `git reset --hard HEAD^`
+      `git reset --hard HEAD~`
     end
 
     bundle "update"
@@ -441,14 +441,14 @@ describe "bundle install with git sources" do
     update_git "foo"
 
     install_gemfile <<-G
-      git "#{lib_path('foo-1.0')}", :ref => "#{git.ref_for('HEAD^')}" do
+      git "#{lib_path('foo-1.0')}", :ref => "#{git.ref_for('HEAD~')}" do
         gem "foo"
       end
     G
 
     run <<-RUBY
       require 'foo'
-      puts "WIN" if FOO_PREV_REF == '#{git.ref_for("HEAD^^")}'
+      puts "WIN" if FOO_PREV_REF == '#{git.ref_for("HEAD~2")}'
     RUBY
 
     out.should == "WIN"
