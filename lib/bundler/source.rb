@@ -3,7 +3,6 @@ require "rubygems/installer"
 require "rubygems/spec_fetcher"
 require "rubygems/format"
 require "digest/sha1"
-require "open3"
 
 module Bundler
   module Source
@@ -621,7 +620,7 @@ module Bundler
         else
           Bundler.ui.info "Fetching #{uri}"
           FileUtils.mkdir_p(cache_path.dirname)
-          git %|clone "#{uri}" "#{cache_path}" --bare --no-hardlinks|
+          git %|clone --bare --no-hardlinks "#{uri}" "#{cache_path}"|
         end
       end
 

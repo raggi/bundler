@@ -7,7 +7,7 @@ require 'bundler'
 require 'rspec'
 
 # Require the correct version of popen for the current platform
-if RbConfig::CONFIG['host_os'] =~ /mingw|mswin/
+if Bundler::WINDOWS
   begin
     require 'win32/open3'
   rescue LoadError
