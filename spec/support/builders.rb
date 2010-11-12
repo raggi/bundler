@@ -480,7 +480,7 @@ module Spec
         Dir.chdir(path) do
           `git init`
           `git add *`
-          `git commit -m 'OMG INITIAL COMMIT'`
+          `git commit -m "OMG INITIAL COMMIT"`
         end
       end
     end
@@ -512,7 +512,9 @@ module Spec
           if branch = options[:branch]
             raise "You can't specify `master` as the branch" if branch == "master"
 
-            if `git branch | grep #{branch}`.empty?
+            grep = Bundler::WINDOWS ? "find /I" : "grep"
+
+            if `git branch | #{grep} "#{branch}"`.empty?
               silently("git branch #{branch}")
             end
 
