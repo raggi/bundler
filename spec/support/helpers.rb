@@ -1,8 +1,5 @@
-if Bundler::WINDOWS
-  require 'win32/open3'
-else
-  require 'open3'
-end
+require 'uri'
+require 'tempfile'
 
 module Spec
   module Helpers
@@ -45,30 +42,45 @@ module Spec
       File.expand_path('../../../lib', __FILE__)
     end
 
+    def mock_env(env)
+      old_env = ENV.to_hash
+      ENV.update(env)
+      yield
+    ensure
+      ENV.replace(old_env)
+    end
+
     def bundle(cmd, options = {})
       expect_err  = options.delete(:expect_err)
       exitstatus = options.delete(:exitstatus)
       options["no-color"] = true unless options.key?("no-color") || cmd.to_s[0..3] == "exec"
 
-      env = (options.delete(:env) || {}).map{|k,v| "#{k}='#{v}' "}.join
+      env = options.delete(:env) || {}
+
       args = options.map do |k,v|
         v == true ? " --#{k}" : " --#{k} #{v}" if v
       end.join
       gemfile = File.expand_path('../../../bin/bundle', __FILE__)
-      cmd = "#{env}#{Gem.ruby} -I#{lib} #{gemfile} #{cmd}#{args}"
+      cmd = "#{Gem.ruby} -I#{lib} #{gemfile} #{cmd}#{args}"
 
-      if exitstatus
-        sys_status(cmd)
-      else
-        sys_exec(cmd, expect_err){|i| yield i if block_given? }
+      mock_env(env) do
+        if exitstatus
+          sys_status(cmd)
+        else
+          sys_exec(cmd, expect_err){|i| yield i if block_given? }
+        end
       end
     end
 
     def ruby(ruby, options = {})
       expect_err = options.delete(:expect_err)
-      env = (options.delete(:env) || {}).map{|k,v| "#{k}='#{v}' "}.join
-      ruby.gsub!(/["`\$]/) {|m| "\\#{m}" }
-      sys_exec(%{#{env}#{Gem.ruby} -I#{lib} -e "#{ruby}"}, expect_err)
+      mock_env(options.delete(:env) || {}) do
+        Tempfile.open('bundler-test') do |f|
+          f.write ruby
+          f.close
+          return sys_exec(%{#{Gem.ruby} -I#{lib} #{f.path}}, expect_err)
+        end
+      end
     end
 
     def gembin(cmd)
@@ -240,6 +252,10 @@ module Spec
 
     def revision_for(path)
       Dir.chdir(path) { `git rev-parse HEAD`.strip }
+    end
+
+    def file_uri(path)
+      URI("file://#{path}/")
     end
   end
 end
